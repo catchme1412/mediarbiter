@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<servlet>
-		<servlet-name>Mediarbiter</servlet-name>
-		<servlet-class>com.raj.media.MediarbiterServlet</servlet-class>
+		<servlet-name>Youtube</servlet-name>
+		<servlet-class>com.raj.youtube.YoutubeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Mediarbiter</servlet-name>
-		<url-pattern>/mediarbiter</url-pattern>
+		<servlet-name>Youtube</servlet-name>
+		<url-pattern>/youtube</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
