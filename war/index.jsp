@@ -1,12 +1,18 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-</head>
-<body>
-	<form action="search" method="get">
-		<select><option id="malayalam">Malayalam</option></select>
-		<input type="submit" value="Search" ></input>
+
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/template/"%>
+
+<t:mainlayout>
+	<label>Language:</label>
+	<select name="language">
+		<option selected="selected" value="search-alias=aps">All Language</option>
+		<option value="language=malayalam">Malayalam</option>
+		<option value="language=hindi">Hindi</option>
+		<option value="language=english">English</option>
+	</select>
+
+	<form action="/youtube" method="get">
+		<label>Search:</label>
+		<input type="text" id="q" />
+		<input type="submit">
 	</form>
-</body>
-</html>
+</t:mainlayout>

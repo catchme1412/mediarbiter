@@ -2,9 +2,12 @@ package com.raj.youtube;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,33 +17,50 @@ import com.google.gdata.data.youtube.VideoEntry;
 import com.google.gdata.data.youtube.VideoFeed;
 import com.google.gdata.util.common.base.StringUtil;
 import com.raj.media.UnversalMediaFeed;
+import com.raj.media.entity.EMFService;
+import com.raj.media.entity.MediaEntry;
+import com.raj.youtube.media.search.SearchCriteria;
 
 @SuppressWarnings("serial")
 public class YoutubeServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
-		out.println("Hello, world");
-//		YouTubeService service = getYoutubeService();
-//		YouTubeQuery query = new YouTubeQuery(new URL("http://gdata.youtube.com/feeds/api/videos"));
-//		// order results by the number of views (most viewed first)
-//		query.setOrderBy(YouTubeQuery.OrderBy.RELEVANCE);
-
-		// search for something and include restricted content in the search
-		// results
+		
 		String queryString = req.getParameter("q");
-
-		queryString = StringUtil.isEmpty(queryString) ? "malayalam movies" : queryString;
-//		query.setFullTextQuery(queryString);
-//		query.setSafeSearch(YouTubeQuery.SafeSearch.NONE);
-
+		String lang = req.getParameter("language");
+		queryString = StringUtil.isEmpty(queryString) ? "malayalam movies" : lang + " movies " + queryString;
+		SearchCriteria searchCriteria = new SearchCriteria();
+		searchCriteria.setCategory(lang);
+		searchCriteria.setQueryString(queryString);
+		
+		// MediaEntry todo = new MediaEntry();
+		//
+		// todo.setMediaId("This is my todo");
+		// EntityManager em = EMFService.get().createEntityManager();
+		// List<MediaEntry> todos = null;
+		// try {
+		// em.persist(todo);
+		// Query q = em.createQuery("select t from MediaEntry t");
+		// todos = new ArrayList(q.getResultList());
+		// } finally {
+		// em.close();
+		// }
+		//
+		// resp.setContentType("text/plain");
+		// if (todos != null) {
+		// resp.getWriter().println(
+		// "Hello, JPA. We have " + todos.size()
+		// + " number of entries.");
+		// } else {
+		// resp.getWriter().println("Should not happen");
+		// }
 		try {
 			YoutubeServiceProvider provider = new YoutubeServiceProvider();
-			VideoFeed videoFeed = provider.query(queryString);
-			voidMethod(videoFeed);
+			VideoFeed videoFeed = provider.query(searchCriteria);
 			req.setAttribute("videoFeed", new UnversalMediaFeed(videoFeed));
-			out.println(videoFeed.getTitle().getPlainText());
-			printVideoFeed(videoFeed, out);
+			// out.println(videoFeed.getTitle().getPlainText());
+			// printVideoFeed(videoFeed, out);
 			req.getRequestDispatcher("/results.jsp").include(req, resp);
 		} catch (Exception e) {
 			e.printStackTrace(out);
@@ -56,7 +76,10 @@ public class YoutubeServlet extends HttpServlet {
 		List<VideoEntry> allVideos = videoFeed.getEntries();
 		Iterator<VideoEntry> itAllVideos = allVideos.iterator();
 		while (itAllVideos.hasNext()) {
+			
 			VideoEntry oneVideo = itAllVideos.next();
+			oneVideo.getMediaGroup().getDuration();
+			
 			TextConstruct oneVideoTitle = oneVideo.getTitle();
 			// Print titles of all videos:
 			out.println(oneVideoTitle.getPlainText());

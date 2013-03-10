@@ -16,16 +16,8 @@ public class MediarbiterServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		try {
 			resp.setContentType("text/html");
-			out.println("Hello, world");
 			Feed result = YoutubeMediaManager.extract(req.getParameter("q"));
-			out.println("Search result :" + req.getParameter("q"));
 			req.setAttribute("searchResults", result);
-//			
-			for (Entry m : result.getEntries()) {
-				out.println(m.getId() + "<img src='" + ((MovieMediaEntry)m).getThumbnail() + "'/>");
-				//out.print(":" + m.getRating() + "\n");
-			}
-			
 			req.setAttribute("feed", result);
 			result.getEntries();
 			req.getRequestDispatcher("results.jsp").include(req, resp);

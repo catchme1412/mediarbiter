@@ -1,0 +1,32 @@
+<!--ONLY LAYOUT SPECIFIC STYLES-->
+div {
+}
+#container {
+	padding: 0.5em;
+	width:100%;
+}
+
+#wrapper {
+	display: table;
+	padding: 0.3em;
+}
+
+#row {
+	display: table-row;
+}
+#northWest,#north,#northEast,#west,#main,#east,#southWest,#south,#southEast
+	{
+	display: table-cell;
+	vertical-align: top;
+	padding-left:5px;
+}
+#northWest,#north,#northEast,#west,#east,#southWest,#south,#southEast {
+	
+}
+#main {
+	padding: 0.6em;
+}
+#south {
+	text-align: center;
+}
+

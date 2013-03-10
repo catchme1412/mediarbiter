@@ -8,5 +8,13 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/axiom-impl-1.2.10.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/v2"/>
+	<classpathentry kind="lib" path="/mediarbiter/war/WEB-INF/lib/gdata-youtube-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/videosonline/war/WEB-INF/lib/guava-jdk5-13.0.jar"/>
+	<classpathentry kind="lib" path="/home/rkv/dev/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.5.0.v201210291354-rel-r42/gwt-2.5.0/gwt-dev.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/rkv/dev/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.5.0.v201210291354-rel-r42/gwt-2.5.0/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="/videosonline/war/WEB-INF/lib/appengine-api-1.0-sdk-1.7.3.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
