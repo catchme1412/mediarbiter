@@ -24,3 +24,22 @@ form {
 fieldset {
 	padding:2px;
 }
+.duration {
+	position: absolute;
+	text-shadow: red;
+	color: white;
+	font-size: 11px;
+	margin: 6px;
+	background-color: black;
+}
+.thumbnail {
+	position: relative;
+	float: left;
+}
+.rating {
+	position: absolute;
+	margin: 80px;
+	padding-left: 10px;
+	font-size: 11px;
+	color: white;
+}

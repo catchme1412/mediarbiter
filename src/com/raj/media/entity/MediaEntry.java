@@ -20,6 +20,8 @@ public class MediaEntry {
 	
 	private String title;
 	
+	private boolean isFullVideo;
+	
 	private double rating;
 	
 	private List<String> cast;
@@ -39,8 +41,18 @@ public class MediaEntry {
 	private Date updatedDate;
 	
 	private String wikipediaUrl;
+
+	private String description;
+	
+	private String thumbnail;
+	
+	private String playlist;
 	
 	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -148,6 +160,42 @@ public class MediaEntry {
 
 	public String getMainCategory() {
 		return "movie";
+	}
+
+	public boolean isFullVideo() {
+		return isFullVideo;
+	}
+
+	public void setFullVideo(boolean isFullVideo) {
+		this.isFullVideo = isFullVideo;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	
+	public String toString() {
+		StringBuilder b = new StringBuilder();
+		b.append("id:").append(id);
+		b.append("; title:").append(title);
+		return b.toString();
+		
+	}
+
+	public String getPlaylist() {
+		return playlist;
+	}
+
+	public void setPlaylist(String playlist) {
+		this.playlist = playlist;
 	}
 
 }

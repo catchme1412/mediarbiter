@@ -25,7 +25,25 @@ public class MediaEntryDAO {
 			em.close();
 		}
 	}
+	
+	public static void update(MediaEntry entry) {
+		EntityManager em = EMFService.get().createEntityManager();
+		try {
+			em.merge(entry);
+		} finally {
+			em.close();
+		}
+	}
 
+	public static MediaEntry find(MediaEntry entry) {
+		EntityManager em = EMFService.get().createEntityManager();
+		try {
+			return em.find(MediaEntry.class, entry);
+		} finally {
+			em.close();
+		}
+	}
+	
 	public static MediaEntry findById(MediaEntry entry) {
 		EntityManager em = EMFService.get().createEntityManager();
 		try {
@@ -37,11 +55,13 @@ public class MediaEntryDAO {
 		}
 	}
 
-	public static List<MediaEntry> getLatestEntries() {
+	public static List<MediaEntry> getLatestEntries(int start, int count) {
 		EntityManager em = EMFService.get().createEntityManager();
 		List<MediaEntry> todos = null;
 		try {
 			Query q = em.createQuery("select t from MediaEntry t");
+			q.setFirstResult(start);
+			q.setMaxResults(count);
 			todos = new ArrayList(q.getResultList());
 		} finally {
 			em.close();

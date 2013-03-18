@@ -1,43 +1,77 @@
 package com.raj.media;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import com.google.gdata.data.youtube.VideoEntry;
-import com.raj.youtube.classifier.Category;
-import com.raj.youtube.classifier.MediaClassifier;
+import com.raj.media.entity.MediaEntry;
 
 public class UniversalMediaEntry {
 
-	private Collection<Serializable> title;
-
 	private VideoEntry entry;
+
+	private String title;
+
+	private String url;
+
+	private double rating;
+
+	private String thumbnail;
+
+	private String description;
+
+	private long duration;
+
+	private String youtubeVideoId;
 
 	private List<String> categoryList;
 
-	private static MediaClassifier classifier;
+	private String wikipediaUrl;
+
+	private String playlist;
+
+	// private static MediaClassifier classifier;
+
+	public void setWikipediaUrl(String wikipediaUrl) {
+		this.wikipediaUrl = wikipediaUrl;
+	}
 
 	static {
-		classifier = new MediaClassifier();
+		// classifier = new MediaClassifier();
+	}
+
+	public UniversalMediaEntry(MediaEntry entry) {
+		title = entry.getTitle();
+		description = entry.getDescription();
+		url = entry.getUrl();
+		rating = entry.getRating();
+		thumbnail = entry.getThumbnail();
+		duration = entry.getDuration();
+		wikipediaUrl = entry.getWikipediaUrl();
+		playlist = entry.getPlaylist();
 	}
 
 	public UniversalMediaEntry(VideoEntry entry) {
 		categoryList = new ArrayList<String>();
 		this.entry = entry;
-		String titleText = entry.getTitle().getPlainText();
+		title = this.entry.getTitle().getPlainText();
+		description = entry.getMediaGroup().getDescription().getContent().getPlainText();
+		thumbnail = entry.getMediaGroup().getThumbnails().get(0).getUrl().toString();
+		duration = entry.getMediaGroup().getDuration();
+		youtubeVideoId = entry.getId().toString().substring(27);
+		url = entry.getLocation();
+		if (entry.getRating() != null) {
+			rating = entry.getRating().getAverage();
+		}
+		String content = entry.getContent().toString();
+		setPlaylist(content.contains("http://www.youtube.com/view_play_list?p=") == true ? content : null);
 		categoryList = new ArrayList<String>();
-		Category cat = classifier.classify(this);
-		categoryList.add(cat.name());
+		// Category cat = classifier.classify(this);
+		// categoryList.add(cat.name());
 	}
 
 	public double getRating() {
-		if (entry.getRating() != null) {
-			return entry.getRating().getAverage();
-		} else {
-			return 0;
-		}
+		return rating;
 	}
 
 	public String getPlainTextContent() {
@@ -45,20 +79,19 @@ public class UniversalMediaEntry {
 	}
 
 	public String getThumbnail() {
-		return null;// entry.youtubeVideoEntry.mediaGroup.thumbnails[0].url
+		return thumbnail;
 	}
 
 	public String getUrl() {
-		return entry.getLocation();
+		return url;
 	}
 
 	public String getDescription() {
-		String html = new String();
-		return entry.getMediaGroup().getDescription().getContent().getPlainText();
+		return description;
 	}
 
 	public String getYoutubeVideoId() {
-		return entry.getId().toString().substring(27);
+		return youtubeVideoId;
 	}
 
 	public VideoEntry getYoutubeVideoEntry() {
@@ -82,11 +115,23 @@ public class UniversalMediaEntry {
 	}
 
 	public String getTitle() {
-		return this.entry.getTitle().getPlainText();
+		return title;
 	}
 
 	public Long getDuration() {
-		return entry.getMediaGroup().getDuration();
+		return duration;
+	}
+
+	public String getWikipediaUrl() {
+		return wikipediaUrl;
+	}
+
+	public String getPlaylist() {
+		return playlist;
+	}
+
+	public void setPlaylist(String playlist) {
+		this.playlist = playlist;
 	}
 
 }

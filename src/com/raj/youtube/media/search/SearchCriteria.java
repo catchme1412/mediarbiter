@@ -18,4 +18,9 @@ public class SearchCriteria {
 	public void setQueryString(String queryString) {
 		this.queryString = queryString;
 	}
+	
+	@Override
+	public String toString() {
+		return queryString + category;
+	}
 }

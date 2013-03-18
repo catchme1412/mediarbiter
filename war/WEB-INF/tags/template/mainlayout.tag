@@ -21,6 +21,9 @@
 <head>
 <title>${pageTitle}</title>
 <link rel="stylesheet" type="text/css" href="/global/main.css" />
+<link rel="stylesheet" type="text/css" href="/global/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/global/bootstrap.overrides.css" />
+<link rel="stylesheet" type="text/css" href="/global/bootstrap-responsive.min.css" />
 <link rel="stylesheet" type="text/css" href="/global/styles/layout.css" />
 <jsp:invoke fragment="pageSpecificMetaTags" />
 <jsp:invoke fragment="pageSpecificLinks" />

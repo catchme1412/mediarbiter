@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,9 +14,10 @@ import com.google.gdata.data.TextConstruct;
 import com.google.gdata.data.youtube.VideoEntry;
 import com.google.gdata.data.youtube.VideoFeed;
 import com.google.gdata.util.common.base.StringUtil;
-import com.raj.media.UnversalMediaFeed;
-import com.raj.media.entity.EMFService;
+import com.raj.media.UniversalMediaEntry;
+import com.raj.media.UniversalMediaFeed;
 import com.raj.media.entity.MediaEntry;
+import com.raj.media.entity.MediaEntryDAO;
 import com.raj.youtube.media.search.SearchCriteria;
 
 @SuppressWarnings("serial")
@@ -26,14 +25,30 @@ public class YoutubeServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
-		
-		String queryString = req.getParameter("q");
-		String lang = req.getParameter("language");
-		queryString = StringUtil.isEmpty(queryString) ? "malayalam movies" : lang + " movies " + queryString;
-		SearchCriteria searchCriteria = new SearchCriteria();
-		searchCriteria.setCategory(lang);
-		searchCriteria.setQueryString(queryString);
-		
+
+		SearchCriteria searchCriteria = getSearchCriteria(req);
+		if (searchCriteria == null) {
+			// home page
+			List<MediaEntry> entries = MediaEntryDAO.getLatestEntries(0, 20);
+			List<UniversalMediaEntry> universalMediaList = new ArrayList();
+			for (MediaEntry entry : entries) {
+				universalMediaList.add(new UniversalMediaEntry(entry));
+			}
+			req.setAttribute("entries", new UniversalMediaFeed(universalMediaList).getEntries());
+		} else {
+			YoutubeServiceProvider provider = new YoutubeServiceProvider();
+			UniversalMediaFeed videoFeed = provider.query(searchCriteria);
+			if (videoFeed != null) {
+				req.setAttribute("entries", videoFeed.getEntries());
+			}	
+		}
+		try {
+			// out.println(videoFeed.getTitle().getPlainText());
+			// printVideoFeed(videoFeed, out);
+			req.getRequestDispatcher("/results.jsp").include(req, resp);
+		} catch (Exception e) {
+			e.printStackTrace(out);
+		}
 		// MediaEntry todo = new MediaEntry();
 		//
 		// todo.setMediaId("This is my todo");
@@ -55,16 +70,21 @@ public class YoutubeServlet extends HttpServlet {
 		// } else {
 		// resp.getWriter().println("Should not happen");
 		// }
-		try {
-			YoutubeServiceProvider provider = new YoutubeServiceProvider();
-			VideoFeed videoFeed = provider.query(searchCriteria);
-			req.setAttribute("videoFeed", new UnversalMediaFeed(videoFeed));
-			// out.println(videoFeed.getTitle().getPlainText());
-			// printVideoFeed(videoFeed, out);
-			req.getRequestDispatcher("/results.jsp").include(req, resp);
-		} catch (Exception e) {
-			e.printStackTrace(out);
+
+	}
+
+	private SearchCriteria getSearchCriteria(HttpServletRequest req) {
+		SearchCriteria searchCriteria = null;
+		String queryString = req.getParameter("q");
+		if (!StringUtil.isEmpty(queryString)) {
+
+			String lang = req.getParameter("language");
+			queryString = StringUtil.isEmpty(queryString) ? "malayalam movies" : lang + " movies " + queryString;
+			searchCriteria = new SearchCriteria();
+			searchCriteria.setCategory(lang);
+			searchCriteria.setQueryString(queryString);
 		}
+		return searchCriteria;
 	}
 
 	private void voidMethod(VideoFeed videoFeed) {
@@ -76,10 +96,10 @@ public class YoutubeServlet extends HttpServlet {
 		List<VideoEntry> allVideos = videoFeed.getEntries();
 		Iterator<VideoEntry> itAllVideos = allVideos.iterator();
 		while (itAllVideos.hasNext()) {
-			
+
 			VideoEntry oneVideo = itAllVideos.next();
 			oneVideo.getMediaGroup().getDuration();
-			
+
 			TextConstruct oneVideoTitle = oneVideo.getTitle();
 			// Print titles of all videos:
 			out.println(oneVideoTitle.getPlainText());
