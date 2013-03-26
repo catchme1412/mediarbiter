@@ -24,6 +24,13 @@ form {
 fieldset {
 	padding:2px;
 }
+.entry {
+	border: 1px solid gray;
+	overflow: hidden;
+	margin: 4px;
+	box-shadow: 2px 2px 2px 2px #CCCCCC;
+	padding: 4px;
+}
 .duration {
 	position: absolute;
 	text-shadow: red;
@@ -35,6 +42,7 @@ fieldset {
 .thumbnail {
 	position: relative;
 	float: left;
+	
 }
 .rating {
 	position: absolute;
@@ -42,4 +50,8 @@ fieldset {
 	padding-left: 10px;
 	font-size: 11px;
 	color: white;
+}
+
+.description {
+	font-size: small;
 }

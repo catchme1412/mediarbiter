@@ -17,16 +17,20 @@
 		<c:forEach var="entry" items="${entries}">
 			<tr>
 				<td>
-				<div class="thumbnail">
-					<img src="${entry.thumbnail}" />
+				<div class="entry">
+					<div class="thumbnail">
+						<img src="${entry.thumbnail}" />
+					</div>
+					<div class="duration">
+									<f:duration time="${entry.duration}" />
+								</div>
+					<div class="rating">${entry.rating}</div>
+					<div>
+						<a href="http://www.youtube.com/watch?v=${entry.youtubeVideoId}">${entry.title}</a>
+					</div>
+					<div class="description">${entry.description}</div>
+					<div>${entry.categoryList}</div>
 				</div>
-				<div class="duration"><f:duration time="${entry.duration}" /></div>
-				<div class="rating">${entry.rating}</div>
-				<div>
-					<a href="http://www.youtube.com/watch?v=${entry.youtubeVideoId}">${entry.title}</a>
-				</div>
-				<div>${entry.description}</div>
-				<div>${entry.categoryList}</div>
 				</td>
 				<td>
 					<div>${entry.wikipediaUrl}</div>

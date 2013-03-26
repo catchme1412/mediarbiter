@@ -7,6 +7,26 @@
 		<servlet-name>Youtube</servlet-name>
 		<url-pattern>/youtube</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CroneJob</servlet-name>
+		<servlet-class>com.raj.youtube.CroneJobServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CroneJob</servlet-name>
+		<url-pattern>/crone</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>crud</servlet-name>
+		<servlet-class>com.raj.youtube.CRUDServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>crud</servlet-name>
+		<url-pattern>/crud</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
